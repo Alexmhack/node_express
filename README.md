@@ -179,3 +179,12 @@ class Reflections {
 		return newReflection;
 	}
 ```
+
+*create method* for our Reflections class does a very simple process, our model has id, 
+success, lowPoint, takeAway, createdDate, modifiedDate, these all features take data from
+the data argument passed in to our create method, the id has to be unique property for each
+object so we use the uuid package which gives us a unique value for id field, then we have
+createdDate and modifiedDate that uses the moment package which gives value of the current 
+time.
+
+Finally we push the object to our array and return the new object.
