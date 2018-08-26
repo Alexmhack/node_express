@@ -20,4 +20,11 @@ class Reflection {
 		return newReflection
 	}
 
+	findOne() {
+		return this.reflections.find(reflect => reflect.id === id);
+	}
+
+	findAll() {
+		return this.reflections;
+	}
 }
