@@ -6,4 +6,18 @@ class Reflection {
 		this.reflections = [];
 	}
 
+	create(data) {
+		const newReflection = {
+			id: uuid.v4(),
+			success: data.success || '',
+			lowPoint: data.lowPoint || '',
+			takeAway: data.takeAway || '',
+			createdDate = moment.now(),
+			modifiedDate = moment.now()
+		};
+
+		this.reflections.push(newReflection);
+		return newReflection
+	}
+
 }
