@@ -141,3 +141,22 @@ app.get('/', (req, res) => {
 	});
 })
 ```
+
+# Reflection Model
+Just as python has __init__ method inside python class, C++ has constructor in their classes
+which all does the same task of running itself as soon as a new instance of the class is 
+created.
+
+Javascript ES6 also has classes and constructors, for our simple project we don't use a
+separate database for storing our data but we use javascript objects for data storage
+
+```
+class Reflections {
+	constructor() {
+		this.reflections = [];
+	}
+}
+```
+
+Here we make a class Reflections that has a constructor which creates an array named 
+reflections each time a new instance of class is created.
