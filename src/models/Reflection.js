@@ -27,4 +27,14 @@ class Reflection {
 	findAll() {
 		return this.reflections;
 	}
+
+	update(id, data) {
+		const reflection = this.findone(id);
+		const index = this.reflections.indexOf(reflection);
+		this.reflection[index].success = data['success'] || reflection.success;
+		this.reflection[index].lowPoint = data['lowPoint'] || reflection.lowPoint;
+		this.reflection[index].takeAway = data['takeAway'] || reflection.takeAway;
+		this.reflection[index].modifiedDate = moment.now();
+		return this.reflections[index];
+	}
 }
