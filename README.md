@@ -188,3 +188,12 @@ createdDate and modifiedDate that uses the moment package which gives value of t
 time.
 
 Finally we push the object to our array and return the new object.
+
+**findOne(id) findAll()** methods.
+
+findOne() finds one object from our array and findAll() returns all the objects from array
+
+**update(id, data)** method takes in the id of the object that has to be updated and data
+from which we will update our object, we get the object to be updated from the findOne
+method which takes in the id and then we update all the fields/properties of the object
+and at last we return the object.
