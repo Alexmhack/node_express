@@ -37,4 +37,11 @@ class Reflection {
 		this.reflection[index].modifiedDate = moment.now();
 		return this.reflections[index];
 	}
+
+	delete(id) {
+		const reflection = this.findOne(id);
+		const index = this.reflections.indexOf(reflection);
+		this.reflections.splice(index, 1);
+		return {};
+	}
 }
