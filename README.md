@@ -75,3 +75,69 @@ npm install --save-dev babel-cli babel-preset-env babel-watch
 After all the packages are done installing you should see those packages listed under the 
 dependencies and devDependencies, and node_modules is the folder which contains the source 
 code of the package we donwloaded.
+
+# Server
+For setting up server at port 3000 we create a new file named server.js that imports express
+and create an express instance which uses express.json as middleware and finally we setup our
+endpoint which sends a message to screen and listens at port 3000.
+
+If you run the server using node server.js command, you will get an error because ES6 does not
+support some of the features such as the import on line 1.
+
+# Babel
+babel will help us compile the code to ES5 that nodejs runtime can understand.
+
+For setting up babel for our project so that our code compiles to ES5 that nodejs runtime can
+understand, we can have to create a new file and name it **.babelrc** and add 
+
+```
+{
+	"presets": ["env"]
+}
+```
+
+Next open **package.json** file and add
+
+```
+"build": "babel server.js --out-dir build"
+```
+
+under script property, your file should look like
+
+```
+{
+  "name": "node_express",
+  "version": "1.0.0",
+  "description": "node express tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  ...
+```
+
+Now run
+
+```
+npm run build
+```
+
+When above command is successfull you should notice a new build folder that contains a 
+server.js file which has original code compiled to ES5 so, running the command again inside
+build folder should run your server withour error
+
+```
+node build/server.js
+```
+
+Navigate to 127.0.0.1:3000 on the browser and what do you know, you get the json data we send
+from our server file, notice this line,
+
+**server.js**
+```
+app.get('/', (req, res) => {
+	return res.status(200).send({
+		'message': 'YAY! Congratulations your first endpoint is working!'
+	});
+})
+```
