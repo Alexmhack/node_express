@@ -45,3 +45,5 @@ class Reflection {
 		return {};
 	}
 }
+
+export default new Reflection();
