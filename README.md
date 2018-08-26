@@ -150,6 +150,7 @@ created.
 Javascript ES6 also has classes and constructors, for our simple project we don't use a
 separate database for storing our data but we use javascript objects for data storage
 
+models/Reflections.js
 ```
 class Reflections {
 	constructor() {
@@ -160,3 +161,21 @@ class Reflections {
 
 Here we make a class Reflections that has a constructor which creates an array named 
 reflections each time a new instance of class is created.
+
+models/Reflections.js
+```
+class Reflections {
+	create(data) {
+		const newReflection = {
+			id: uuid.v4(),
+			success: data.success || '',
+			lowPoint: data.lowPoint || '',
+			takeAway: data.takeAway || '',
+			createdDate = moment.now(),
+			modifiedDate = moment.now()
+		}
+
+		this.reflections.push(newReflection);
+		return newReflection;
+	}
+```
