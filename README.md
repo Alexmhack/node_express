@@ -197,3 +197,97 @@ findOne() finds one object from our array and findAll() returns all the objects 
 from which we will update our object, we get the object to be updated from the findOne
 method which takes in the id and then we update all the fields/properties of the object
 and at last we return the object.
+
+Next we create a delete method for deleting the object from reflections array using splice
+method in javascript which takes in two arguments, first arg tells to delete from and 
+second till which to delete.
+
+# Reflection controller
+We have five methods update, create, findOne, findAll, delete (CRUD) so just like we do in
+django we need endpoints for these methods, controllers/Reflection.js is the file for it
+
+```
+const Reflection = {
+	create (req, res) {
+		if (!req.body.success && !req.body.lowPoint && !req.body.takeAway) {
+			return res.status(400).send({'message': 'All fields are required'})
+		}
+
+		const reflection = ReflectionModel.create(req.body);
+		return res.status(201).send(reflection);
+	},
+	...
+```
+
+**NOTE:** don't forget to export our const with default
+
+```
+export default Reflection;
+```
+
+We complete this task by importing our reflection model in that file. We create a const
+reflection variable which has all the methods separated by commas, first we check if the 
+reflection exists and then we execute the process using the reflection model and if not 
+exists we send a 404 status response with a reflection not found message
+
+Next we need to add the urls for our reflections using the get, post, put methods of the
+express module.
+
+```
+app.post('/api/v1/reflections', Reflection.create);
+app.get('/api/v1/reflections', Reflection.getAll);
+app.get('/api/v1/reflections/:id', Reflection.getOne);
+app.put('/api/v1/reflections/:id', Reflection.update);
+app.delete('/api/v1/reflections/:id', Reflection.delete);
+```
+
+# Restart server on code changes
+Every time we make changes in our code we need to stop and restart our server using 
+
+```
+npm run build
+```
+
+But babel-watch is the dev module for this purpose, we just have to add 
+
+```
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel server.js --out-dir build",
+    "dev-start": "babel-watch server.js"
+  },
+  ...
+```
+
+in the **package.json** file under *script*.
+
+# POSTMAN
+[Postman](https://www.getpostman.com/) app is a very powerful service which lets you deal
+with the api using simple get, post, put methods and endpoints.
+
+Run the server using
+
+```
+npm run dev-start
+```
+
+If any errors occurs, npm briefly explains the reason behind the error, I got an error which
+says no module named 'moment', I simply installed the moment module again using 
+
+```
+npm install --save moment
+```
+
+Now using POSTMAN is very simple,
+1. Select the method of request ```GET, POST, PUT, DELETE etc.```. 
+2. Enter the url endpoint which for our project is ```http://127.0.0.1:3000/``` and other urls are defined in our server.js file
+3. If the request method is POST we need to enter the body of data in JSON format in raw
+for example,
+	```
+	{
+		"success": "complete nodejs tutorial",
+		"lowPoint": "time consuming",
+		"takeAway": "learn a new language"
+	}	
+	```
+4. Press Send and at the bottom of window you should see the response from the server.
