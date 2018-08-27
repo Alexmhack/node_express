@@ -7,7 +7,7 @@ const Reflection = {
 		}
 
 		const reflection = ReflectionModel.create(req.body);
-		return res.status(200).send(reflection);
+		return res.status(201).send(reflection);
 	}
 
 }
