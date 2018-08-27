@@ -21,6 +21,15 @@ const Reflection = {
 			res.status(400).send({'message': 'reflection not found'})
 		}
 		return res.status(200).send(reflection);
+	},
+
+	update(req, res) {
+		const reflection = ReflectionModle.findOne(req.params.id);
+		if (!reflection) {
+			res.status(404).send({'message': 'reflection not found'})
+		}
+		const updateReflection = ReflectionModel.update(req.params.id, req.body);
+		return res.status(200).send(updateReflection);
 	}
 
 }
