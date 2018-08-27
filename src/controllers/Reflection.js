@@ -41,3 +41,5 @@ const Reflection = {
 		return res.status(204).send(ref);
 	}
 }
+
+export default Reflection;
