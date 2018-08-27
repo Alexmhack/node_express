@@ -30,6 +30,14 @@ const Reflection = {
 		}
 		const updateReflection = ReflectionModel.update(req.params.id, req.body);
 		return res.status(200).send(updateReflection);
-	}
+	},
 
+	delete(req, res) {
+		const reflection = ReflectionModel.findOne(req.params.id);
+		if (!reflection) {
+			return res.status(404).send({'message': 'reflection not found'})
+		}
+		const ref = ReflectionModel.delete(req.params.id);
+		return res.status(204).send(ref);
+	}
 }
