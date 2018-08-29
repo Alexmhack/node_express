@@ -291,3 +291,158 @@ for example,
 	}	
 	```
 4. Press Send and at the bottom of window you should see the response from the server.
+
+# PostgreSQL
+Now we will advance our project and use a [PostgreSQL](https://www.postgresql.org/) instead
+of using JavaScript object datatype.
+
+**Get Started**
+Install [PostgreSQL](https://www.postgresql.org/) and to check if it is installed succesfully
+run ```psql --help``` in command prompt or terminal and you will be given the list of 
+commands for psql.
+
+Just for clarity we have created two new folders in ```src``` folder namely usingJSObjects
+and usingDB, we move our previous folders into usingJSObjects.
+
+**Installing package**
+```
+npm install --save pg dotenv
+```
+
+**Setup database**
+
+For setting our postgresql database we have to create a database for our reflection
+project name the database *reflection_db*
+
+**command prompt**
+```
+> psql -U postgres
+password: enter-your-password-if-set
+
+postgres=# CREATE DATABASE reflection_db;
+CREATE DATABASE
+```
+
+**NOTE:** Don't forget the semicolon at the end of command, if have not set any 
+password then you can simply type,
+
+**command prompt**
+```
+createdb reflection_db
+```
+
+You can check if the database is successfully created using,
+
+**psql command prompt**
+```
+postgres=# \l
+
+reflection_db | postgres | UTF8     | ---------- | ---------- | ---------
+```
+
+# Configuring Database
+Create a .env file in your root project folder and in that folder put the *
+DATABASE_URL* for the project in format *
+postgres://{db_username}:{db_password}@{host}:{port}/{db_name}*
+
+**.env**
+```
+DATABASE_URL=postgres://userame:password@127.0.0.1:5432/reflection_db
+```
+
+**NOTE:** No space should be given on either sides of equal to sign.
+
+This file won't be uploaded to github because it in the .gitignore file. If you 
+choose to use an online database then put in the url for that database.
+
+# Creating tables
+Now in the file *db.js* located in the root folder, we will connect to our database
+first and then create tables for reflection model
+
+PG and dotenv are the packages that we will use now.
+
+**db.js**
+```
+const { Pool } = require('pg');
+const dotenv = require('dotenv');
+```
+
+Now using our Pool object we will create a new instance and specify our database url
+and if database is connected we will log a message on console.
+
+```
+dotenv.config();
+
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL
+});
+
+pool.on('connect', () => {
+	console.log("CONNECTED TO DATABASE");
+});
+```
+
+Now we will create table reflections which has the same fields from the previous javascript
+object had,
+
+1. id UUID PRIMARY KEY
+2. success VARCHAR(128) NOT NULL,
+3. low_point VARCHAR(128) NOT NULL
+4. take_away VARCHAR(128) NOT NULL
+5. created_date TIMESTAMP
+6. modified_date TIMESTAMP
+
+And we will do this inside a function,
+
+**db.js**
+```
+const createTables = () => {
+	const queryText = 
+		`CREATE TABLE IF NOT EXISTS
+			reflections(
+				id UUID PRIMARY KEY,
+				success VARCHAR(128) NOT NULL,
+				low_point VARCHAR(128) NOT NULL,
+				take_away VARCHAR(128) NOT NULL,
+				created_date TIMESTAMP,
+				modified_date TIMESTAMP
+			)`
+
+	pool.query(queryText).then((res) => {
+		console.log(res);
+		pool.end();
+	}).catch((err) => {
+		console.log(err);
+		pool.end();
+	})
+}	
+```
+
+Inside this large chunk of function, we first write the commands that will create a table
+reflections for us which has all these fields which all goes inside a const variable inside
+a string, we pass this const variable to *pool.query*, which will run those commands for us.
+
+Once *pool.query* does its work we use the *.then* function which takes in the argument
+res returned by pool.query and we log that response (res) and end our pool connection, if 
+there are any errors we catch them and after printing them end our pool
+
+We then make another function that simply drops the table reflections if it exists.
+
+```
+const dropTables = () => {
+	const queryText = `DROP TABLE IF EXISTS reflections`;
+
+	pool.query(queryText).then((res) => {
+		console.log(res);
+		pool.end();
+	}).catch((err) => {
+		console.log(err);
+		pool.end();
+	})
+}
+```
+
+Once all of this is done we simply console a message for removed client and export our 
+functions and lastly we require make-runnable package - We need this to be able to call and 
+any of our two functions from the terminal. Note: You have to require make-runnable at the 
+end. Also, don't forget to install make-runnable as project dev-dependency.
