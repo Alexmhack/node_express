@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/Alexmhack/node_express#readme",
   "dependencies": {
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "moment": "^2.22.2",
+    "pg": "^7.4.3",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
