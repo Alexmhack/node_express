@@ -32,3 +32,16 @@ const createTables = () => {
 		pool.end();
 	})
 }
+
+// drop tables
+const dropTables = () => {
+	const queryText = `DROP TABLE IF EXISTS reflections`;
+	
+	pool.query(queryText).then((res) => {
+		console.log(res);
+		pool.end();
+	}).catch((err) => {
+		console.log(err);
+		pool.end();
+	});
+}
