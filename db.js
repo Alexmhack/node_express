@@ -45,3 +45,15 @@ const dropTables = () => {
 		pool.end();
 	});
 }
+
+pool.on('remove', () => {
+	console.log('CLIENT REMOVED');
+	process.exit(0);
+});
+
+module.exports = {
+	createTables,
+	dropTables
+};
+
+require('make-runnable');
